@@ -9,10 +9,19 @@ class ModeloClientes extends Modelo {
     }
 
     function ListarClientes($filtro='') {
+        $_filtro = (isset($filtro['filtro']))?"nombres like '%".$filtro['filtro']."%'":'';
+        return  $this->select(array('id_cliente','tipo_documento','numero_documento','nombres','apellidos','telefono','direccion'),'clientes',$_filtro); 
+    }
 
-    	$_filtro = (isset($filtro['filtro']))?"nombres like '%".$filtro['filtro']."%'":'';
+    function BuscarCliente($filtro){
+        if (isset($filtro['cliente'])) {
+            $_filtro = "id_cliente = ".$filtro['cliente'];
+            return  $this->selectOne(array('id_cliente','tipo_documento','numero_documento','nombres','apellidos','telefono','direccion'),'clientes',$_filtro); 
+        }else{
+            return 'Cliente Invalido';
+        }
+        
 
-       return  $this->select(array('tipo_documento','numero_documento','nombres','apellidos','telefono','direccion'),'clientes',$_filtro); 
     }
 
     function CrearCliente($parametros){
@@ -54,7 +63,7 @@ class ModeloClientes extends Modelo {
     			$campos[$key] = $value;
     		}
     		
-    		$editar = $this->update($campos,'clientes','numero_documento='.$cliente);
+    		$editar = $this->update($campos,'clientes','id_cliente='.$cliente);
     		if ($editar)
     	    	return 'OK';
     		else
