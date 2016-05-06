@@ -1,4 +1,5 @@
 <?php 
+header('Content-Type: application/json');
 
 if (isset($_GET['funcion'])) {
 
@@ -6,11 +7,12 @@ if (isset($_GET['funcion'])) {
 
   	case 'reporte_clientes': //http://localhost/webService/index_ws.php?funcion=reporte_clientes&filtro=Se
 
-      require_once "ModeloClientes.php";
+    require_once "ModeloClientes.php";
       $modelo = new ModeloClientes();
       $listado = $modelo->ListarClientes($_GET);
+      
       echo json_encode($listado);
-     
+   
     break;
 
     case 'buscar_cliente': //http://localhost/webService/index_ws.php?funcion=buscar_cliente&cliente=1
