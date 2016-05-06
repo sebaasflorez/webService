@@ -40,40 +40,54 @@ class ModeloClientes extends Modelo {
     		'apellidos' => $apellidos,
     		'telefono' => $telefono,
     		'direccion' => $direccion
-    	);
+         );
 
     	$crear =  $this->insert($campos,'clientes');
 
-    	if ($crear)
-    	    return 'OK';
-    	else
-    		return 'Error';
+        if ($crear){
+            $respuesta['salida'] = 'OK';
+            $respuesta['estado'] = '1';
+            return $respuesta;
 
-    }
+        }else {
 
-    function EditarCliente($parametros){
+         $respuesta['salida'] = 'Error';
+         $respuesta['estado'] = '2';
+         return $respuesta;
+     }
 
-    	if (isset($parametros['cliente']) && $parametros['cliente']!='') {
-    		
-    		$cliente = $parametros['cliente'];
-    		unset($parametros['cliente']);
-    		unset($parametros['funcion']);
+ }
 
-    		foreach ($parametros as $key => $value) {
-    			$campos[$key] = $value;
-    		}
-    		
-    		$editar = $this->update($campos,'clientes','id_cliente='.$cliente);
-    		if ($editar)
-    	    	return 'OK';
-    		else
-    			return 'Error';
+ function EditarCliente($parametros){
 
-    	}else{
-    		return 'Cliente Invalido';
-    	}
+     if (isset($parametros['cliente']) && $parametros['cliente']!='') {
 
-    }
+      $cliente = $parametros['cliente'];
+      unset($parametros['cliente']);
+      unset($parametros['funcion']);
+
+      foreach ($parametros as $key => $value) {
+       $campos[$key] = $value;
+   }
+
+   $editar = $this->update($campos,'clientes','id_cliente='.$cliente);
+   if ($editar){
+    $respuesta['salida'] = 'OK';
+    $respuesta['estado'] = '1';
+    return $respuesta;
+
+}else {
+
+ $respuesta['salida'] = 'Error';
+ $respuesta['estado'] = '2';
+ return $respuesta;
+}
+
+}else{
+  return 'Cliente Invalido';
+}
+
+}
 
 }
 ?>
